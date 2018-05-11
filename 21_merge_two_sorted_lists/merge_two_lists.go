@@ -1,15 +1,34 @@
-func isValid(s string) bool {
-    stack := make([]byte, 0)
-    for i := 0; i < len(s); i++ {
-        if s[i] == '(' || s[i] == '{' || s[i] == '[' {
-            stack = append(stack, s[i])
-        } else {
-            n := len(stack)
-            if n == 0 || (stack[n - 1] == '(' && s[i] != ')') || (stack[n - 1] == '{' && s[i] != '}') || (stack[n - 1] == '[' && s[i] != ']') {
-                return false
-            }
-            stack = stack[:n-1]
-        }
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+    if l1 == nil {
+        return l2
     }
-    return len(stack) == 0
+    if l2 == nil {
+        return l1
+    }
+    dummy := &ListNode{}
+    cur := dummy
+    for l1 != nil && l2 != nil {
+        if l1.Val < l2.Val {
+            cur.Next = l1
+            l1 = l1.Next
+        } else {
+            cur.Next = l2
+            l2 = l2.Next
+        }
+        cur = cur.Next
+    }
+    if l1 != nil {
+        cur.Next = l1
+    }
+    if l2 != nil {
+        cur.Next = l2
+    }
+    return dummy.Next
 }
